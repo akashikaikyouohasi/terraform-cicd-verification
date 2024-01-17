@@ -32,8 +32,8 @@ jobs:
           role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN_PLAN }}
           aws-region: ap-northeast-1
       # 事前チェック（強制フォーマットとValidate）
-      - name: Terraform plan
-        uses: ./.github/actions/terraform_plan/
+      - name: Terraform fmt/validate
+        uses: ./.github/actions/terraform_check/
         with:
           working-directory: ${{ matrix.dir }}
 
