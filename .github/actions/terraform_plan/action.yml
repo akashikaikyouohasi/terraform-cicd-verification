@@ -14,7 +14,7 @@ runs:
       uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 1.6.6
-    - name: init
+    - name: test
       shell: bash
       run: pwd && ls -la
       working-directory: ${{ inputs.working-directory }}

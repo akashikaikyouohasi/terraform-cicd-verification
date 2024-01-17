@@ -16,6 +16,10 @@ jobs:
     defaults:
       run:
         working-directory: route53
+    strategy:
+      matrix:
+        dir:
+        - "route53"
     steps:
       # ソース取得
       - name: Checkout
@@ -45,3 +49,4 @@ jobs:
         uses: ./.github/actions/terraform_plan/
         with:
           role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN_PLAN }}
+          working-directory: ${{ matrix.dir }}
