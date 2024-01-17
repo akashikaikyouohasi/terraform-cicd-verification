@@ -16,6 +16,10 @@ runs:
         terraform_version: 1.6.6
     - name: init
       shell: bash
+      run: pwd && ls -la
+      working-directory: ${{ inputs.working-directory }}
+    - name: init
+      shell: bash
       run: terraform init
       working-directory: ${{ inputs.working-directory }}
     - id: fmt
