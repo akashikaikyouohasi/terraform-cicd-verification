@@ -12,6 +12,14 @@
     - development
         - AWS_IAM_ROLE_ARN_PLAN :AWSで`terraform plan`まで実行する際のIAMロールのARNを設定する
 
+## 追加すべき設定
+以下は有効にする！
+- マージ前にレビューを必須にする
+- Approve後にコミットされたら再レビュー
+- CIをパスすることを必須にする。今回ならfmtやvalidateが該当
+
+参考：https://kojirooooocks.hatenablog.com/entry/2018/05/11/033152
+
 ## IAMロール
 `terraform plan`はできて、applyできない権限にする
 
