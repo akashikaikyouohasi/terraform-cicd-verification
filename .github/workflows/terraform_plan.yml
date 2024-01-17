@@ -26,6 +26,8 @@ jobs:
         with:
           role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN_PLAN }}
           aws-region: ap-northeast-1
+      # 事前チェック（強制フォーマットとValidate）
+
       # Terraformのインストール
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -37,5 +39,9 @@ jobs:
         run: terraform fmt -check -recursive
       - name: terraform validate
         run: terraform validate
-      - name: terraform plan
-        run: terraform plan -out=plan.tfplan
+
+      # plan実行(Composite Actionで呼び出す)
+      - name: Terraform plan
+        uses: ./.github/actions/terraform_plan/
+        with:
+          role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN_PLAN }}

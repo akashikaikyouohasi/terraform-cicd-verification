@@ -1,0 +1,11 @@
+name: terraform plan
+description: terraform planを実行するアクション
+inputs:
+  role-to-assume:
+    description: AWSのIAMロール
+runs:
+  using: composite
+  steps:
+    - name: terraform plan
+      shell: bash
+      run: terraform plan -out=plan.tfplan
