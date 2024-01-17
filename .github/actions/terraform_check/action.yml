@@ -1,5 +1,5 @@
-name: terraform plan
-description: terraform planを実行するアクション
+name: terraform fmt/validate
+description: terraform fmt/validateを実行するアクション
 inputs:
   working-directory:
     description: 'matrix.dir'
@@ -16,8 +16,11 @@ runs:
       shell: bash
       run: terraform init
       working-directory: ${{ inputs.working-directory }}
-    - name: terraform plan
+    - id: fmt
+      run: terraform fmt -check -diff
       shell: bash
-      run: terraform plan -out=plan.tfplan
       working-directory: ${{ inputs.working-directory }}
-
+    - name: terraform validate
+      shell: bash
+      run: terraform validate
+      working-directory: ${{ inputs.working-directory }}
