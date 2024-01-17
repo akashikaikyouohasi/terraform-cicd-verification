@@ -8,6 +8,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: actions/checkout@v4
+      uses: actions/checkout@v4
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
@@ -35,7 +37,7 @@ runs:
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
         git add .
         git commit --author=. -m 'terraform fmt'
-        git push origin ${{github.head_ref}}; 
+        git push
       working-directory: ${{ inputs.working-directory }}
       if: ${{ steps.terraform_fmt.outcome == 'failure' }}
     - name: terraform validate
