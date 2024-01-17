@@ -3,8 +3,8 @@ name: terraform fmt/validate/plan
 on:
   pull_request:
     types: [opened,synchronize,reopened] # PR作成時と変更時
-    # paths:
-    #   - "route53/**"  # route53ディレクトリ以下の変更時
+    paths:
+      - "route53/**"  # route53ディレクトリ以下の変更時
 jobs:
   terraform:
     runs-on: ubuntu-latest
