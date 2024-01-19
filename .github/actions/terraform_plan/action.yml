@@ -5,6 +5,9 @@ inputs:
     description: 'matrix.dir'
     required: true
     default: ""
+  github-token:
+    description: 'GITHUB_TOKEN'
+    required: true
 runs:
   using: composite
   steps:
@@ -39,12 +42,11 @@ runs:
 
 
     - uses: actions/github-script@v6
-      shell: bash
       if: github.event_name == 'pull_request'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.GITHUB_TOKEN }}
         script: |
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
@@ -76,12 +78,12 @@ runs:
             body: output
           })
     - uses: actions/github-script@v6
-      shell: bash
+
       if: github.event_name == 'pull_request'
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.GITHUB_TOKEN }}
         script: |
           // 1. Retrieve existing bot comments for the PR
           const { data: comments } = await github.rest.issues.listComments({
