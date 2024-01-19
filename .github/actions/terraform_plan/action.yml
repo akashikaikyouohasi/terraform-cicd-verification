@@ -46,7 +46,7 @@ runs:
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-        github-token: ${{ inputs.GITHUB_TOKEN }}
+        github-token: ${{ inputs.github-token }}
         script: |
           const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
@@ -83,7 +83,7 @@ runs:
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-        github-token: ${{ inputs.GITHUB_TOKEN }}
+        github-token: ${{ inputs.github-token }}
         script: |
           // 1. Retrieve existing bot comments for the PR
           const { data: comments } = await github.rest.issues.listComments({
