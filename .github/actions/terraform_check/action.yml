@@ -13,7 +13,7 @@ runs:
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.6.6
     - name: init
@@ -44,5 +44,5 @@ runs:
       if: ${{ steps.terraform_fmt.outcome == 'failure' }}
     - name: terraform validate
       shell: bash
-      run: terraform validate
+      run: terraform validate -no-color # no-colorオプションを付けないと、GitHub Actionsのログに色がついてしまう
       working-directory: ${{ inputs.working-directory }}
