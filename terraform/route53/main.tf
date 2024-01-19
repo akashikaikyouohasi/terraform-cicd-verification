@@ -14,7 +14,7 @@ terraform {
   backend "s3" {
     bucket = "tfstate-terraform-20211204"
     key    = "terraform-cicd/route53.tfstate"
-    region    = "ap-northeast-1"
+    region = "ap-northeast-1"
   }
 }
 
