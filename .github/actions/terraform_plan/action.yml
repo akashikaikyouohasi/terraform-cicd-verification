@@ -37,7 +37,7 @@ runs:
     - name: terraform plan
       shell: bash
       id: plan
-      run: terraform plan -out=plan.tfplan
+      run: terraform plan  -no-color
       working-directory: ${{ inputs.working-directory }}
 
 
