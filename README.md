@@ -24,3 +24,19 @@
 `terraform plan`はできて、applyできない権限にする
 
 参考：https://dev.classmethod.jp/articles/terraform-iam-policy-not-apply-but-plan/
+
+## 確認したいこと
+GitHub Actionsのローカル検証
+```
+%brew install act
+% act -l --container-architecture linux/amd64
+Stage  Job ID                             Job name                           Workflow name                Workflow file       Events
+0      create_changed_directory_list      create_changed_directory_list      terraform fmt/validate/plan  terraform_plan.yml  pull_request
+0      terraform                          terraform                          terraform fmt/validate/plan  terraform_plan.yml  pull_request
+1      run_tasks_for_changed_directories  run_tasks_for_changed_directories  terraform fmt/validate/plan  terraform_plan.yml  pull_request
+%  act pull_request
+```
+ちゃんと動作確認はできていない...
+
+## 参考
+https://zenn.dev/ykiu/articles/b0ff728f8c52c1
