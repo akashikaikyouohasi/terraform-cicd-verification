@@ -7,8 +7,8 @@
 - [x] terraform fmtの自動実行
 - [x] terraform validateの自動実行
 - [x] PRのテンプレート作成
-- [ ] DynamoDBロックの作成
-- [ ] profile設定
+- [x] DynamoDBロックの作成
+-  ~~profile設定~~ : CIで面倒なので一旦なし
 - [ ] GitHub actionsのIAMロールのimport
 - [ ] DependBotの設定
 
@@ -47,6 +47,17 @@ Stage  Job ID                             Job name                           Wor
 - GitHub でレビュワーにアサインされたら通知が来るようにすること
 - tfenvをインストールして、Terraformをローカルで実行できること
     - credentialの設定は、SSOがベストだが...
+
+## DynamoDB作成コマンド
+名前の`terraform-lock`を作成し、パーティションキーを`LockID`とし、プロビジョンドスループットをオートスケールなしの`1`にする。
+```
+aws dynamodb create-table \
+         --region ap-northeast-1 \
+         --table-name terraform-lock \
+         --attribute-definitions AttributeName=LockID,AttributeType=S \
+         --key-schema AttributeName=LockID,KeyType=HASH \
+         --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
+```
 
 ## 参考
 https://zenn.dev/ykiu/articles/b0ff728f8c52c1
