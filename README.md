@@ -11,6 +11,9 @@
 -  ~~profile設定~~ : CIで面倒なので一旦なし
 - [ ] GitHub actionsのIAMロールのimport
 - [ ] DependBotの設定
+- [ ] working-directoryを調整
+- [ ] matrixの調整とPR検証
+    - 後からディレクトリを追加していって認識するか
 
 ## GitHubに設定する内容
 - Environments
