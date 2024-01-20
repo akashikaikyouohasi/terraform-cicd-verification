@@ -2,10 +2,15 @@
 このリポジトリの目的は、TerraformのCI/CDを検証することです
 
 ### 実施したいこと
-- [ ] PRでTerraformのplanを自動で実行し、自動で追記してくれること
+- [x] PRでTerraformのplanを自動で実行し、自動で追記してくれること
 - [ ] PRマージで、Terraformのapplyが実行されること
-- [ ] terraform fmtの自動実行
-- [ ] terraform validateの自動実行
+- [x] terraform fmtの自動実行
+- [x] terraform validateの自動実行
+- [x] PRのテンプレート作成
+- [ ] DynamoDBロックの作成
+- [ ] profile設定
+- [ ] GitHub actionsのIAMロールのimport
+- [ ] DependBotの設定
 
 ## GitHubに設定する内容
 - Environments
@@ -37,6 +42,11 @@ Stage  Job ID                             Job name                           Wor
 %  act pull_request
 ```
 ちゃんと動作確認はできていない...
+
+## 必須の設定
+- GitHub でレビュワーにアサインされたら通知が来るようにすること
+- tfenvをインストールして、Terraformをローカルで実行できること
+    - credentialの設定は、SSOがベストだが...
 
 ## 参考
 https://zenn.dev/ykiu/articles/b0ff728f8c52c1
