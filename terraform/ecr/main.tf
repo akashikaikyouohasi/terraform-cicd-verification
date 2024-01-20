@@ -12,9 +12,9 @@ terraform {
 
   # tfstate(状態管理用ファイル)をS3に保存する設定
   backend "s3" {
-    bucket = "tfstate-terraform-20211204"
-    key    = "terraform-cicd/ecr.tfstate"
-    region = "ap-northeast-1"
+    bucket         = "tfstate-terraform-20211204"
+    key            = "terraform-cicd/ecr.tfstate"
+    region         = "ap-northeast-1"
     dynamodb_table = "terraform-lock"
   }
 }
