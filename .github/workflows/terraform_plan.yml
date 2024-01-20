@@ -11,7 +11,7 @@ jobs:
     outputs:
       target_list_matrix: ${{ steps.set-target.outputs.target_matrix }}
     steps:
-      - uses: actions:/checkout@v3
+      - uses: actions/checkout@v3
       - name: fetch base branch (マージ先取得)
         run: git fetch origin ${{ github.base_ref }} --depth=1 # depth=1で最新のコミットのみ取得
       - name: Create list of modified directories
