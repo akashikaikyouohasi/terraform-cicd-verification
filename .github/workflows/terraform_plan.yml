@@ -21,7 +21,7 @@ jobs:
         run: |
           # 変更されたディレクトリのリストを作成 
           # github.base_refはマージ先のブランチ名、HEADは現在のコミット、sed 's#/[^/]*$##'は#を区切り文字として、最後の/以降を削除する、uniqは重複を削除してディレクトリのみにする。ただし、home_directoryのディレクトリは除外する
-          changed_dirs=$(git diff --name-only origin/${{ github.base_ref }} HEAD  | grep '^${{env.home_directory}}/' | sed 's#/[^/]*$##' | grep -E -v "^${{env.home_directory}}" | uniq)
+          changed_dirs=$(git diff --name-only origin/${{ github.base_ref }} HEAD  | grep '^${{env.home_directory}}/' | sed 's#/[^/]*$##' | grep -E -v "^${{env.home_directory}}$" | uniq)
           echo "Changed directories: $changed_dirs"
           
           # JSON形式で出力 # GITHUB_OUTPUTに出力すると、後続のジョブで参照できる。JSON形式で出力することで、後続のジョブでmatrixを使えるようになる
