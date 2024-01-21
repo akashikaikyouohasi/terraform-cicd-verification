@@ -79,6 +79,9 @@ https://zenn.dev/dzeyelid/articles/e36d439cdeda5edb7ddc
 Dependabot group
 https://zenn.dev/yuki0920/articles/9af3a7581193bf
 
+terraform providers lock
+https://dev.classmethod.jp/articles/multiplatform-terraform-init-lock/
+
 ---
 
 # 実運用を考えたドキュメント
