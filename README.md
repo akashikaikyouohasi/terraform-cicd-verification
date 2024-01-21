@@ -73,6 +73,12 @@ Stage  Job ID                             Job name                           Wor
 - tfenvをインストールして、Terraformをローカルで実行できること
     - credentialの設定は、SSOがベストだが...
 
+## Terraform lockの更新
+Mac(Apple siricon)とLinux(GitHub Actions上のUbuntu)に対応させる必要があるため、以下のコマンドで`.terraform.lock.hcl`を調整する必要があります
+```
+$ terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
+```
+
 ## DynamoDB作成コマンド
 名前の`terraform-lock`を作成し、パーティションキーを`LockID`とし、プロビジョンドスループットをオートスケールなしの`1`にする。
 ```
