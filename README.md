@@ -44,24 +44,6 @@
 - [x] fmtを一度だけ実行するようにする。今は、サブディレクトリでやっているけど、ムダだよね。
 
 
-## GitHubに設定する内容
-- Environments
-    - development
-        - AWS_IAM_ROLE_ARN_PLAN :AWSで`terraform plan`まで実行する際のIAMロールのARNを設定する
-
-## 追加すべき設定
-以下は有効にする！
-- マージ前にレビューを必須にする
-- Approve後にコミットされたら再レビュー
-- CIをパスすることを必須にする。今回ならfmtやvalidate、planが該当
-
-参考：https://kojirooooocks.hatenablog.com/entry/2018/05/11/033152
-
-## IAMロール
-`terraform plan`はできて、applyできない権限にする
-
-参考：https://dev.classmethod.jp/articles/terraform-iam-policy-not-apply-but-plan/
-
 ## 確認したいこと
 GitHub Actionsのローカル検証
 ```
@@ -75,17 +57,6 @@ Stage  Job ID                             Job name                           Wor
 ```
 ちゃんと動作確認はできていない...
 
-## 必須の設定
-- GitHub でレビュワーにアサインされたら通知が来るようにすること
-- tfenvをインストールして、Terraformをローカルで実行できること
-    - credentialの設定は、SSOがベストだが...
-
-## Terraform lockの更新
-Mac(Apple siricon)とLinux(GitHub Actions上のUbuntu)に対応させる必要があるため、以下のコマンドで`.terraform.lock.hcl`を調整する必要があります
-```
-$ terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
-```
-
 ## DynamoDB作成コマンド
 名前の`terraform-lock`を作成し、パーティションキーを`LockID`とし、プロビジョンドスループットをオートスケールなしの`1`にする。
 ```
@@ -97,6 +68,20 @@ aws dynamodb create-table \
          --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
 ```
 
+## 参考
+GitHub Actions で差分有無に応じた細かい制御を行う
+https://zenn.dev/ykiu/articles/b0ff728f8c52c1
+
+dependabot
+https://qiita.com/yokawasa/items/38c6a4242cbe0fd5bbf0
+https://zenn.dev/dzeyelid/articles/e36d439cdeda5edb7ddc
+
+Dependabot group
+https://zenn.dev/yuki0920/articles/9af3a7581193bf
+
+---
+
+# 実運用を考えたドキュメント
 ## 運用フロー
 ・変更の場合
 1. tfenvのインストール
@@ -119,13 +104,31 @@ aws dynamodb create-table \
 - `terraform apply`はローカルで行う運用です。
     - GitHubはAWSに対してReadonlyの権限しか持たせていないためです
 
-## 参考
-GitHub Actions で差分有無に応じた細かい制御を行う
-https://zenn.dev/ykiu/articles/b0ff728f8c52c1
+## 各自で必須の設定
+- GitHub でレビュワーにアサインされたら通知が来るようにすること
+- tfenvをインストールして、Terraformをローカルで実行できること
+    - credentialの設定は、SSOがベストだが...
 
-dependabot
-https://qiita.com/yokawasa/items/38c6a4242cbe0fd5bbf0
-https://zenn.dev/dzeyelid/articles/e36d439cdeda5edb7ddc
+## Terraform lockの更新
+Mac(Apple siricon)とLinux(GitHub Actions上のUbuntu)に対応させる必要があるため、以下のコマンドで`.terraform.lock.hcl`を調整する必要があります
+```
+$ terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
+```
 
-Dependabot group
-https://zenn.dev/yuki0920/articles/9af3a7581193bf
+## GitHubに設定する内容
+### Environments
+- development
+    - AWS_IAM_ROLE_ARN_PLAN :AWSで`terraform plan`まで実行する際のIAMロールのARNを設定する
+
+### 追加すべき設定
+以下は有効にする！
+- マージ前にレビューを必須にする
+- Approve後にコミットされたら再レビュー
+- CIをパスすることを必須にする。今回ならfmtやvalidate、planが該当
+
+参考：https://kojirooooocks.hatenablog.com/entry/2018/05/11/033152
+
+## 使用するIAMロール
+`terraform plan`はできて、applyできない権限にする
+
+参考：https://dev.classmethod.jp/articles/terraform-iam-policy-not-apply-but-plan/
