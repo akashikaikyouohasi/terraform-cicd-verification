@@ -11,7 +11,7 @@
 - [x] DynamoDBロックの作成
 -  ~~profile設定~~
     - CIで面倒なので一旦なし
-- [ ] GitHub actionsのIAMロールのimport
+- [x] GitHub actionsのIAMロールのimport
 - [x] Dependabotの設定
     - [x] 機能確認
         - Dependabot alerts:脆弱性が検知とアラート
@@ -42,6 +42,7 @@
 - [x] `terraform validate`で確認できることを把握する
     - 属性名や値の型の正確性など、再利用可能なモジュールの一般的な検証に役立つとのこと
 - [x] fmtを一度だけ実行するようにする。今は、サブディレクトリでやっているけど、ムダだよね。
+- [ ] Terraformのテストいる？
 
 
 ## 確認したいこと
@@ -81,6 +82,9 @@ https://zenn.dev/yuki0920/articles/9af3a7581193bf
 
 terraform providers lock
 https://dev.classmethod.jp/articles/multiplatform-terraform-init-lock/
+
+`terraform plan -generate-config-out=generated.tf`でimport
+https://dev.classmethod.jp/articles/terraform-v1-5-0-import-and-check-sample/
 
 ---
 
