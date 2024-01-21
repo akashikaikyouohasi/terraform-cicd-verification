@@ -1,6 +1,6 @@
 terraform {
   # terraformのバージョン指定
-  required_version = ">=1.6"
+  required_version = ">=1.7"
 
   # 使用するAWSプロバイダーのバージョン指定（結構更新が速い）
   required_providers {
@@ -12,9 +12,10 @@ terraform {
 
   # tfstate(状態管理用ファイル)をS3に保存する設定
   backend "s3" {
-    bucket = "tfstate-terraform-20211204"
-    key    = "terraform-cicd/ecr.tfstate"
-    region = "ap-northeast-1"
+    bucket         = "tfstate-terraform-20211204"
+    key            = "terraform-cicd/ecr.tfstate"
+    region         = "ap-northeast-1"
+    dynamodb_table = "terraform-lock"
   }
 }
 

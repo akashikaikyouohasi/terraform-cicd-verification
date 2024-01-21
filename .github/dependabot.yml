@@ -1,0 +1,12 @@
+version: 2
+
+updates:
+  - package-ecosystem: terraform
+    directory: "/terraform"
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "【Terraform】"
+      prefix-development: "[dev]"
+      include: "scope"
