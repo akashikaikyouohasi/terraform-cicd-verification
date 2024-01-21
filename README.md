@@ -8,13 +8,18 @@
 - [x] terraform validateの自動実行
 - [x] PRのテンプレート作成
 - [x] DynamoDBロックの作成
--  ~~profile設定~~ : CIで面倒なので一旦なし
+-  ~~profile設定~~
+    - CIで面倒なので一旦なし
 - [ ] GitHub actionsのIAMロールのimport
 - [ ] DependBotの設定
-- [ ] working-directoryを調整
+- ~~working-directoryを調整~~
+    - compositeでは継承されなさそう
 - [ ] matrixの調整とPR検証
     - 後からディレクトリを追加していって認識するか
 - [x] 同時実行数1にしたい
+- [ ] PRのコメントを更新にする
+    - 一度に複数回コメントを行う可能性があるので、更新できない？
+    - 文字列を追加してできそう？
 
 ## GitHubに設定する内容
 - Environments
