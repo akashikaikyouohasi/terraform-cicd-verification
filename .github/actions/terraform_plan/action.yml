@@ -1,10 +1,6 @@
 name: terraform plan
 description: terraform planを実行するアクション
 inputs:
-  working-directory:
-    description: 'matrix.dir'
-    required: true
-    default: ""
   github-token:
     description: 'GITHUB_TOKEN'
     required: true
@@ -19,27 +15,21 @@ runs:
       shell: bash
       id: init
       run: terraform init
-      working-directory: ${{ inputs.working-directory }}
 
     - name: Terraform fmt
       shell: bash
       id: fmt
       run: terraform fmt -check
       continue-on-error: true
-      working-directory: ${{ inputs.working-directory }}
     - name: Terraform Validate
       shell: bash
       id: validate
       run: terraform validate -no-color
-      working-directory: ${{ inputs.working-directory }}
-
 
     - name: terraform plan
       shell: bash
       id: plan
       run: terraform plan  -no-color
-      working-directory: ${{ inputs.working-directory }}
-
 
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
