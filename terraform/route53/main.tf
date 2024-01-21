@@ -1,6 +1,6 @@
 terraform {
   # terraformのバージョン指定
-  required_version = ">=1.6"
+  required_version = ">=1.7"
 
   # 使用するAWSプロバイダーのバージョン指定（結構更新が速い）
   required_providers {
