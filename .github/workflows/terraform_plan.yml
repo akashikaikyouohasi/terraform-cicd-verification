@@ -5,6 +5,8 @@ on:
     types: [opened,synchronize,reopened] # PR作成時と変更時、更新時に実行
     paths:
       - "terraform/**"  # terraformディレクトリの全サブディレクトリの変更時
+env:
+  home_directory : terraform
 jobs:
   create_changed_directory_list:
     runs-on: ubuntu-latest
@@ -19,7 +21,7 @@ jobs:
         run: |
           # 変更されたディレクトリのリストを作成 
           # github.base_refはマージ先のブランチ名、HEADは現在のコミット、sed 's#/[^/]*$##'は#を区切り文字として、最後の/以降を削除する、uniqは重複を削除してディレクトリのみにする
-          changed_dirs=$(git diff --name-only origin/${{ github.base_ref }} HEAD  | grep '^terraform/' | sed 's#/[^/]*$##' | uniq)
+          changed_dirs=$(git diff --name-only origin/${{ github.base_ref }} HEAD  | grep '^${{env.home_directory}}/' | sed 's#/[^/]*$##' | uniq)
           echo "Changed directories: $changed_dirs"
           
           # JSON形式で出力 # GITHUB_OUTPUTに出力すると、後続のジョブで参照できる。JSON形式で出力することで、後続のジョブでmatrixを使えるようになる
