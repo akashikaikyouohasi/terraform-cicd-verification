@@ -34,6 +34,7 @@
     - `.terraform-version`ファイルを追加することで、そのバージョンを利用するようになる
     - 参考：https://github.com/tfutils/tfenv?tab=readme-ov-file#terraform-version-file
 - [ ] `terraform.lcck.hcl`設定
+- [ ] workflow内でのTerraformバージン自動設定
 - [ ] `terraform validate`で確認できることを把握する
 
 
