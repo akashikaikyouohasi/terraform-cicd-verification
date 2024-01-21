@@ -11,11 +11,16 @@
 -  ~~profile設定~~
     - CIで面倒なので一旦なし
 - [ ] GitHub actionsのIAMロールのimport
-- [ ] DependBotの設定
-    - Dependabot alerts:
-    - Dependabot security updates:
-    - Grouped security updates Beta:
-    - Dependabot version updates:
+- [x] Dependabotの設定
+    - [x] 機能確認
+        - Dependabot alerts:脆弱性が検知とアラート
+        - Dependabot security updates:検知された脆弱性に対するPR自動作成
+        - Grouped security updates Beta:自動作成されるPRを1つにまとめる！
+            - あまりに数が多いなら設定してもいいかも。まだBetaなので。
+        - Dependabot version updates:`dependabot.yml`で設定したコードの、依存関係を最新状態に保つPRを自動で作成
+        - group以外を有効で良さそう！
+- [x] RenovateとDependabotの違いは？
+    - DependabotはGitHub所有、RenovateはMend社が開発。Renovateの方が色々機能があるっぽい
 - ~~working-directoryを調整~~
     - compositeでは継承されなさそう
 - [x] matrixの調整
@@ -30,6 +35,7 @@
     - 参考：https://github.com/tfutils/tfenv?tab=readme-ov-file#terraform-version-file
 - [ ] `terraform.lcck.hcl`設定
 - [ ] `terraform validate`で確認できることを把握する
+
 
 ## GitHubに設定する内容
 - Environments
@@ -100,4 +106,12 @@ aws dynamodb create-table \
     - GitHubはAWSに対してReadonlyの権限しか持たせていないためです
 
 ## 参考
+GitHub Actions で差分有無に応じた細かい制御を行う
 https://zenn.dev/ykiu/articles/b0ff728f8c52c1
+
+dependabot
+https://qiita.com/yokawasa/items/38c6a4242cbe0fd5bbf0
+https://zenn.dev/dzeyelid/articles/e36d439cdeda5edb7ddc
+
+Dependabot group
+https://zenn.dev/yuki0920/articles/9af3a7581193bf
