@@ -107,6 +107,7 @@ aws dynamodb create-table \
     1. `terraform plan`を行い、PRに上記の結果と合わせてコメントを行う
 1. 問題がなければレビューを依頼する
     1. レビューの結果変更を追加でコミットした場合、自動で`terraform fmt/validate/plan`を行いPRのコメント内容を更新してくれます
+    1. `terraform fmt`で修正されたものをpullせずにcommit/pushするとエラーとなるので、rebaseしてください
 1. Approveされたら手元で`terraform apply`を実行して、マージする
 
 ・Terraformのバージョンアップ
