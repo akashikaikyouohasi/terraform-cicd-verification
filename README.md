@@ -3,7 +3,8 @@
 
 ### 実施したいこと
 - [x] PRでTerraformのplanを自動で実行し、自動で追記してくれること
-- [ ] PRマージで、Terraformのapplyが実行されること
+- ~~PRマージで、Terraformのapplyが実行されること~~
+    - applyは一旦しない
 - [x] terraform fmtの自動実行
 - [x] terraform validateの自動実行
 - [x] PRのテンプレート作成
@@ -22,7 +23,7 @@
 - [x] RenovateとDependabotの違いは？
     - DependabotはGitHub所有、RenovateはMend社が開発。Renovateの方が色々機能があるっぽい
 - ~~working-directoryを調整~~
-    - compositeでは継承されなさそう
+    - composite actionでは継承されなさそう
 - [x] matrixの調整
 - [ ] PR検証
     - 後からディレクトリを追加していって認識するか
