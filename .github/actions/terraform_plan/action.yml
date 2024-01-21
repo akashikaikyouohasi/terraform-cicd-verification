@@ -77,7 +77,7 @@ runs:
           const botComment = comments.find(comment => {
             return comment.user.type === 'Bot' && 
             comment.body.includes('Terraform Format and Style') && 
-            comment.body.includes('Terraform Format and Style')
+            comment.body.includes('${{ inputs.working-directory }}')
           })
 
           // 2. Prepare format of the comment
