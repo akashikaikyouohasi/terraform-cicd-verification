@@ -3,11 +3,11 @@ data "aws_caller_identity" "current" {}
 
 # GitHub ActionsからのIAMロールへのアクセスを許可するIAMロールを作成
 resource "aws_iam_role" "github_actions_terraform_plan" {
-    name                  = "GitHubActionsTerraformPlan"
+  name               = "GitHubActionsTerraformPlan"
   assume_role_policy = data.aws_iam_policy_document.github_actions_terraform_plan_assume_role_policy.json
-  managed_policy_arns   = [
-        "arn:aws:iam::aws:policy/ReadOnlyAccess"
-    ]
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  ]
   inline_policy {
     name   = "allowUpdateStateLockDdb"
     policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:DeleteItem\"],\"Effect\":\"Allow\",\"Resource\":\"*\"}]}"
