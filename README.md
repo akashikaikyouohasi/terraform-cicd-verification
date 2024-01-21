@@ -14,7 +14,7 @@
 - [ ] working-directoryを調整
 - [ ] matrixの調整とPR検証
     - 後からディレクトリを追加していって認識するか
-- [ ] 同時実行数1にしたい
+- [x] 同時実行数1にしたい
 
 ## GitHubに設定する内容
 - Environments
