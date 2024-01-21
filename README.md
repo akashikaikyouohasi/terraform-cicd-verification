@@ -25,11 +25,11 @@
 - ~~working-directoryを調整~~
     - composite actionでは継承されなさそう
 - [x] matrixの調整
-- [ ] PR検証
+- [x] PR検証
     - [x] 後からディレクトリを追加していって認識するか
     - [x] fmtでの修正が複数で必要な場合に、1度のコミットで修正されているか
     - [x] ディレクトリごとのPlan結果がコメントされるか
-    - [ ] ディレクトリごとのPlan結果がコメントが、追加コミットで更新されるか（新しいコメントにならないかということ）
+    - [x] ディレクトリごとのPlan結果がコメントが、追加コミットで更新されるか（新しいコメントにならないかということ）
 - [x] 同時実行数1にしたい
 - [x] PRのコメントを更新にする
     - 一度に複数回コメントを行う可能性があるので、更新できない？→working-directoryを追記するようにしたからできたわ！
@@ -132,6 +132,8 @@ $ terraform providers lock -platform=linux_amd64 -platform=darwin_arm64
 - マージ前にレビューを必須にする
 - Approve後にコミットされたら再レビュー
 - CIをパスすることを必須にする。今回ならfmtやvalidate、planが該当
+- ブランチの自動的削除
+    - https://docs.github.com/ja/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-the-automatic-deletion-of-branches
 
 参考：https://kojirooooocks.hatenablog.com/entry/2018/05/11/033152
 
