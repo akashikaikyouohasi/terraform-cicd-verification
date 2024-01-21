@@ -24,6 +24,17 @@ runs:
       id: init
       run: terraform init
       working-directory: ${{ inputs.working-directory }}
+    - name: Terraform fmt
+      shell: bash
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+      working-directory: ${{ inputs.working-directory }}
+    - name: Terraform Validate
+      shell: bash
+      id: validate
+      run: terraform validate -no-color
+      working-directory: ${{ inputs.working-directory }}
     - name: terraform plan
       shell: bash
       id: plan
