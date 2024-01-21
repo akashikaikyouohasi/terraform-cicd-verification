@@ -15,7 +15,7 @@ terraform {
     bucket         = "tfstate-terraform-20211204"
     key            = "terraform-cicd/route53.tfstate"
     region         = "ap-northeast-1"
-    dynamodb_table = "terraform-lock"
+    dynamodb_table =    "terraform-lock"
   }
 }
 
