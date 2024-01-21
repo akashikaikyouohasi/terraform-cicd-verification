@@ -33,6 +33,7 @@ jobs:
       pull-requests: write
     needs: create_changed_directory_list # 依存関係
     strategy:
+      max-parallel: 1 # 並列実行数
       matrix: ${{fromJson(needs.create_changed_directory_list.outputs.target_list_matrix)}} # JSON形式で出力したものをmatrixに渡す # 変更のあったディレクトリのリストのみを実行する
     defaults:
       run:
