@@ -21,6 +21,9 @@
 - [x] PRのコメントを更新にする
     - 一度に複数回コメントを行う可能性があるので、更新できない？→working-directoryを追記するようにしたからできたわ！
     - 文字列を追加してできそう？
+- [x] tfenvでのterraformバージョン指定
+    - `.terraform-version`ファイルを追加することで、そのバージョンを利用するようになる
+    - 参考：https://github.com/tfutils/tfenv?tab=readme-ov-file#terraform-version-file
 
 ## GitHubに設定する内容
 - Environments
