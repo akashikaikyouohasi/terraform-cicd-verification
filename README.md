@@ -52,7 +52,7 @@
 以下は有効にする！
 - マージ前にレビューを必須にする
 - Approve後にコミットされたら再レビュー
-- CIをパスすることを必須にする。今回ならfmtやvalidateが該当
+- CIをパスすることを必須にする。今回ならfmtやvalidate、planが該当
 
 参考：https://kojirooooocks.hatenablog.com/entry/2018/05/11/033152
 
