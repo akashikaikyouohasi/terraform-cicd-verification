@@ -12,13 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       target_list_matrix: ${{ steps.set-target.outputs.target_list_matrix }}
-      terraform_version: ${{ steps.get_terraform_version.outputs.terraform_version }}
     steps:
       - uses: actions/checkout@v3
-      # Terraformのバージョン取得(.terraform-versionファイルを参照)
-      - name: Get terraform version
-        id: get_terraform_version
-        run: echo "terraform_version="$(cat terraform/.terraform-version) >> $GITHUB_OUTPUT
       - name: fetch base branch (マージ先取得)
         run: git fetch origin ${{ github.base_ref }} --depth=1 # depth=1で最新のコミットのみ取得
       - name: Create list of modified directories
@@ -31,14 +26,37 @@ jobs:
           
           # JSON形式で出力 # GITHUB_OUTPUTに出力すると、後続のジョブで参照できる。JSON形式で出力することで、後続のジョブでmatrixを使えるようになる
           echo "target_list_matrix={\"include\":[$(echo $changed_dirs | sed 's/ /, /g' | sed 's/^/{\"dir\":\"/' | sed 's/$/\"}/' | sed 's/, /\"}, {\"dir\":\"/g')]}" >> $GITHUB_OUTPUT
-  terraform:
+  terraform-fmt:
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      id-token: write #不要では？要確認
+      contents: write
+    outputs:
+      terraform_version: ${{ steps.get_terraform_version.outputs.terraform_version }}
+    needs: create_changed_directory_list
+    steps:
+      - uses: actions/checkout@v3
+      # Terraformのバージョン取得(.terraform-versionファイルを参照)
+      - name: Get terraform version
+        id: get_terraform_version
+        run: echo "terraform_version="$(cat terraform/.terraform-version) >> $GITHUB_OUTPUT
+      # terraform fmt実行
+      - name: Terraform fmt and commit
+        uses: ./.github/actions/terraform_fmt/
+        env:
+          TERRAFORM_VERSION: ${{ steps.get_terraform_version.outputs.terraform_version }}
+        with:
+          terraform-version: ${{ env.TERRAFORM_VERSION }}
+
+  terraform-plan:
     runs-on: ubuntu-latest
     environment: development
     permissions:
       id-token: write
       contents: write
       pull-requests: write
-    needs: create_changed_directory_list # 依存関係
+    needs: [create_changed_directory_list, terraform-fmt] # 依存関係 [Build1, Build2]のように複数指定可能
     strategy:
       max-parallel: 1 # 並列実行数
       matrix: ${{fromJson(needs.create_changed_directory_list.outputs.target_list_matrix)}} # JSON形式で出力したものをmatrixに渡す # 変更のあったディレクトリのリストのみを実行する
@@ -55,9 +73,9 @@ jobs:
         with:
           role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN_PLAN }}
           aws-region: ap-northeast-1
-      # 事前チェック（強制フォーマットとValidate）
-      - name: Terraform fmt/validate
-        uses: ./.github/actions/terraform_check/
+      # 事前チェック（Validate）
+      - name: Terraform validate
+        uses: ./.github/actions/terraform_validate/
         with:
           terraform-version: ${{ needs.create_changed_directory_list.outputs.terraform_version }}
           working-directory: ${{ matrix.dir }}

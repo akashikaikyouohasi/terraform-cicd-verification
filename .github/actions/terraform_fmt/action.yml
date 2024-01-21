@@ -1,12 +1,8 @@
-name: terraform fmt/validate
+name: terraform fmt
 description: terraform fmt/validateを実行するアクション
 inputs:
   terraform-version:
     description: 'terraform version'
-    required: true
-    default: ""
-  working-directory:
-    description: 'matrix.dir'
     required: true
     default: ""
 runs:
@@ -20,10 +16,10 @@ runs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ inputs.terraform-version }}
-    - name: init
-      shell: bash
-      run: terraform init
-      working-directory: ${{ inputs.working-directory }}
+    # - name: init
+    #   shell: bash
+    #   run: terraform init
+    #   working-directory: ${{ inputs.working-directory }}
     - name: fmt check
       shell: bash
       continue-on-error: true # エラーでも処理を継続する
@@ -46,7 +42,7 @@ runs:
         git push origin HEAD:${{ github.head_ref }}
       working-directory: ${{ inputs.working-directory }}
       if: ${{ steps.terraform_fmt.outcome == 'failure' }}
-    - name: terraform validate
-      shell: bash
-      run: terraform validate -no-color # no-colorオプションを付けないと、GitHub Actionsのログに色がついてしまう
-      working-directory: ${{ inputs.working-directory }}
+    # - name: terraform validate
+    #   shell: bash
+    #   run: terraform validate -no-color # no-colorオプションを付けないと、GitHub Actionsのログに色がついてしまう
+    #   working-directory: ${{ inputs.working-directory }}

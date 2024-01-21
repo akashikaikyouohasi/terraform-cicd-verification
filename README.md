@@ -26,6 +26,9 @@
 - [x] matrixの調整
 - [ ] PR検証
     - 後からディレクトリを追加していって認識するか
+    - fmtでの修正が複数で必要な場合に、1度のコミットで修正されているか
+    - ディレクトリごとのPlan結果がコメントされるか
+    - ディレクトリごとのPlan結果がコメントが、追加コミットで更新されるか（新しいコメントにならないかということ）
 - [x] 同時実行数1にしたい
 - [x] PRのコメントを更新にする
     - 一度に複数回コメントを行う可能性があるので、更新できない？→working-directoryを追記するようにしたからできたわ！
@@ -33,9 +36,11 @@
 - [x] tfenvでのterraformバージョン指定
     - `.terraform-version`ファイルを追加することで、そのバージョンを利用するようになる
     - 参考：https://github.com/tfutils/tfenv?tab=readme-ov-file#terraform-version-file
-- [ ] `terraform.lcck.hcl`設定
-- [ ] workflow内でのTerraformバージン自動設定
-- [ ] `terraform validate`で確認できることを把握する
+- [x] `terraform.lcck.hcl`設定
+- [x] workflow内でのTerraformバージン自動設定
+- [x] `terraform validate`で確認できることを把握する
+    - 属性名や値の型の正確性など、再利用可能なモジュールの一般的な検証に役立つとのこと
+- [ ] fmtを一度だけ実行するようにする。今は、サブディレクトリでやっているけど、ムダだよね。
 
 
 ## GitHubに設定する内容

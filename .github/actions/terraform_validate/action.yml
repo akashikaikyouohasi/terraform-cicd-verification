@@ -1,0 +1,52 @@
+name: terraform validate
+description: terraform validateを実行するアクション
+inputs:
+  terraform-version:
+    description: 'terraform version'
+    required: true
+    default: ""
+  working-directory:
+    description: 'matrix.dir'
+    required: true
+    default: ""
+runs:
+  using: composite
+  steps:
+    - name: actions/checkout@v4
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ inputs.terraform-version }}
+    - name: init
+      shell: bash
+      run: terraform init
+      working-directory: ${{ inputs.working-directory }}
+    # - name: fmt check
+    #   shell: bash
+    #   continue-on-error: true # エラーでも処理を継続する
+    #   id: terraform_fmt
+    #   run: terraform fmt -check -diff -recursive
+    #   working-directory: ${{ inputs.working-directory }}
+    # - name: fmt
+    #   shell: bash
+    #   run: terraform fmt -recursive
+    #   working-directory: ${{ inputs.working-directory }}
+    #   if: ${{ steps.terraform_fmt.outcome == 'failure' }}
+    # - name: Commit & Push
+    #   shell: bash
+    #   run: |
+    #     set -x
+    #     git config user.name github-actions[bot]
+    #     git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+    #     git add .
+    #     git commit --author=. -m 'terraform fmt'
+    #     git push origin HEAD:${{ github.head_ref }}
+    #   working-directory: ${{ inputs.working-directory }}
+    #   if: ${{ steps.terraform_fmt.outcome == 'failure' }}
+    - name: terraform validate
+      shell: bash
+      run: terraform validate -no-color # no-colorオプションを付けないと、GitHub Actionsのログに色がついてしまう
+      working-directory: ${{ inputs.working-directory }}
