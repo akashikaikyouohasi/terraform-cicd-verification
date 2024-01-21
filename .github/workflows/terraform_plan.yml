@@ -12,8 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       target_list_matrix: ${{ steps.set-target.outputs.target_list_matrix }}
+      terraform_version: ${{ steps.get_terraform_version.outputs.terraform_version }}
     steps:
       - uses: actions/checkout@v3
+      # Terraformのバージョン取得(.terraform-versionファイルを参照)
+      - name: Get terraform version
+        id: get_terraform_version
+        run: echo "terraform_version="$(cat terraform/.terraform-version) >> $GITHUB_OUTPUT
       - name: fetch base branch (マージ先取得)
         run: git fetch origin ${{ github.base_ref }} --depth=1 # depth=1で最新のコミットのみ取得
       - name: Create list of modified directories
@@ -54,10 +59,12 @@ jobs:
       - name: Terraform fmt/validate
         uses: ./.github/actions/terraform_check/
         with:
+          terraform-version: ${{ needs.create_changed_directory_list.outputs.terraform_version }}
           working-directory: ${{ matrix.dir }}
       # plan実行(Composite Actionで呼び出す)
       - name: Terraform plan
         uses: ./.github/actions/terraform_plan/
         with:
+          terraform-version: ${{ needs.create_changed_directory_list.outputs.terraform-version }}
           working-directory: ${{ matrix.dir }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

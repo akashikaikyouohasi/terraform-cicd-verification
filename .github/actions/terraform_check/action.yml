@@ -1,6 +1,10 @@
 name: terraform fmt/validate
 description: terraform fmt/validateを実行するアクション
 inputs:
+  terraform-version:
+    description: 'terraform version'
+    required: true
+    default: ""
   working-directory:
     description: 'matrix.dir'
     required: true
@@ -15,7 +19,7 @@ runs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: 1.6.6
+        terraform_version: ${{ inputs.terraform-version }}
     - name: init
       shell: bash
       run: terraform init
