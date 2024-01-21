@@ -12,6 +12,10 @@
     - CIで面倒なので一旦なし
 - [ ] GitHub actionsのIAMロールのimport
 - [ ] DependBotの設定
+    - Dependabot alerts:
+    - Dependabot security updates:
+    - Grouped security updates Beta:
+    - Dependabot version updates:
 - ~~working-directoryを調整~~
     - compositeでは継承されなさそう
 - [x] matrixの調整
@@ -24,6 +28,8 @@
 - [x] tfenvでのterraformバージョン指定
     - `.terraform-version`ファイルを追加することで、そのバージョンを利用するようになる
     - 参考：https://github.com/tfutils/tfenv?tab=readme-ov-file#terraform-version-file
+- [ ] `terraform.lcck.hcl`設定
+- [ ] `terraform validate`で確認できることを把握する
 
 ## GitHubに設定する内容
 - Environments
@@ -71,6 +77,27 @@ aws dynamodb create-table \
          --key-schema AttributeName=LockID,KeyType=HASH \
          --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
 ```
+
+## 運用フロー
+・変更の場合
+1. tfenvのインストール
+1. 必要なterraformバージョンのインストール
+1. ブランチを作成して、変更をコミット
+1. PRを作成すると、以下が自動で実施される
+    1. `terraform fmt`を行い、自動でコミット
+    1. `terraform validate`を行い、問題があったらエラーとする
+    1. `terraform plan`を行い、PRに上記の結果と合わせてコメントを行う
+1. 問題がなければレビューを依頼する
+    1. レビューの結果変更を追加でコミットした場合、自動で`terraform fmt/validate/plan`を行いPRのコメント内容を更新してくれます
+1. Approveされたら手元で`terraform apply`を実行して、マージする
+
+・Terraformのバージョンアップ
+- 毎週月曜に**Dependabot**でアップデートのPRを作成しています
+- 適当に確認してマージする（ここはチェックを自動化したい...）
+
+### 補足
+- `terraform apply`はローカルで行う運用です。
+    - GitHubはAWSに対してReadonlyの権限しか持たせていないためです
 
 ## 参考
 https://zenn.dev/ykiu/articles/b0ff728f8c52c1
