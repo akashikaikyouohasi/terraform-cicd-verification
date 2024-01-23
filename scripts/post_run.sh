@@ -1,21 +1,21 @@
 #!/bin/bash
+# gsedはbrew install gnu-sedでインストールしたgsedを使う
+gsed -i -e '/allow_overwrite\s*=\s*null/d' generated.tf # allow_overwrite = null という行を削除
+gsed -i -e '/health_check_id\s*=\s*=null/d' generated.tf # health_check_id = null という行を削除
+gsed -i -e '/multivalue_answer_routing_policy\s*=\s*false/d' generated.tf # multivalue_answer_routing_policy = false という行を削除
+gsed -i -e '/set_identifier\s*=\s*null/d' generated.tf # set_identifier = null という行を削除
+gsed -i -e '/records\s*=\s*\[\]/d' generated.tf # records = [] という行を削除
+gsed -i -e '/ttl\s*=\s*0/d' generated.tf # ttl = 0 という行を削除
 
-DEBUG=True 
-#DEBUG=False
+
+terraform plan
+
+#% terraform import aws_route53_record.myrecord Z4KAPRWWNC7JR_dev.example.com_NS
 
 host_zones=$(aws route53 list-hosted-zones | jq -r '.HostedZones[].Id')
 
-echo "" > terraform.tf
-
 for zone_id in $host_zones;
 do
-    echo "=========================================="
-
-    # ドメイン名を取得
-    zone_name=$(aws route53 get-hosted-zone --id $zone_id | jq -r '.HostedZone.Name') # -rはダブルクォートを取り除く
-    trimmed_zone_name=$(echo $zone_name | sed -e 's/.$//') # 末尾のドットを取り除く
-    echo Zone Name: $trimmed_zone_name
-
     # PrivateZoneはスキップ
     private_zone=$(aws route53 get-hosted-zone --id $zone_id | jq -r '.HostedZone.Config.PrivateZone')
     echo PrivateZone: $private_zone
@@ -37,11 +37,6 @@ do
     # そのため、whileで回すことにした
     echo "$records" | while read -r record ; #-rはバックスラッシュをエスケープしない
     do
-        echo "========"
-        if $DEBUG; then
-            echo $record
-        fi
-
         # Nameを取得
         name=$(echo $record | jq -r '.Name' | sed -e 's/.$//') # .NameでNameがキーの値を取得して、末尾のドットを取り除く
         echo $name
@@ -54,13 +49,7 @@ do
 
         echo ${name}_${type}
 
-        echo "import {" >> terraform.tf
-        echo "  to = aws_route53_record.${name_without_hyphen}_${type}" >> terraform.tf
-        echo "  id = \"${zone_id}_${name}_${type}"\" >> terraform.tf
-        echo "}" >> terraform.tf
-        echo "" >> terraform.tf
+        terraform import aws_route53_record.${name_without_hyphen}_${type} ${zone_id}_${name}_${type}
     done
 done
-
-terraform plan -generate-config-out=generated.tf
 
